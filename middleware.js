@@ -31,7 +31,6 @@ module.exports.isAuthor = wrapAsyncHandler(async (req,res,next) => {
 
 module.exports.isReviewAuthor = wrapAsyncHandler(async (req,res,next) => {
     const {id,reviewId} = req.params;
-    const loc = await Location.findById(id);
     const review = await Reviews.findById(reviewId);
     if(!review.author.equals(req.user._id)) {
         req.flash('error','you are not the author of this review.');
