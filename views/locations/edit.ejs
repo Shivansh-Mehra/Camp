@@ -1,0 +1,47 @@
+<% layout('../views/layouts/boilerplate') %>
+<%- include('../partials/flash') %>
+<div class="row">
+    <h1 class="text-center">New Location!</h1>
+    <div class="col-6 offset-3">
+        <div class="newAddition">
+            <h1>Create a new Location</h1>
+            <form action="/locations/edit/<%= location._id %>?_method=PATCH" method="POST" novalidate class="validated-form" enctype="multipart/form-data">
+                <div class="name mb-3">
+                    <label for="name" class="form-label">Name:</label>
+                    <input type="text" name="name" id="name" class = "form-control" value="<%= location.name %>" required>
+                    <div class="valid-feedback">Looks Good!</div>
+                </div>
+                <div class="loc mb-3">
+                    <label for="location" class="form-label">Location:</label>
+                    <input type="text" name="location" id="location" class = "form-control" value="<%= location.location %>" required>
+                    <div class="valid-feedback">Looks Good!</div>
+                </div>
+                <div class="desc mb-3">
+                    <label for="description" class="form-label">Description:</label>
+                    <input type="text" name="description" id="description" class = "form-control" value="<%= location.description %>" required>
+                    <div class="valid-feedback">Looks Good!</div>
+                </div>
+                <div class="img mb-3">
+                    <label for="image" class="form-label">Image URL:</label>
+                    <input type="file" name="image" id="image" class ="form-control" required multiple>
+                    <div class="valid-feedback">Looks Good!</div>
+                </div>
+                <div class="mb-3">
+                    <label for="basic-url" class="font-label">Price:</label>
+                    <div class="input-group">
+                        <span class="input-group-text" id="basic-addon3">$</span>
+                        <input type="text" name="price" class="form-control" id="basic-url" value="<%= location.price %>" aria-describedby="basic-addon3 basic-addon4" placeholder="0.00" required>
+                        <div class="valid-feedback">Looks Good!</div>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+            <form action="/locations/edit/<%= location._id %>/deleteImages">
+                <button type="submit" class="btn btn-danger">Delete Images</button>
+            </form>
+            <a href="/locations">Go Back</a>
+        </div>
+    </div>
+</div> 
+
+<script src="/JS/validateForms.js"></script>

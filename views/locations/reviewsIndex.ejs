@@ -1,0 +1,22 @@
+<% layout('../views/layouts/boilerplate') %>
+<%- include('../partials/flash') %>
+<link rel="stylesheet" href="/CSS/starability.css">
+<div class="row">
+    <div class="col-6 offset-3">
+        <h1>Displaying reviews of <%= location.name %></h1>
+    </div>
+    <div class="col-6 offset-3">
+        <% for(const review of location.reviews) { %>
+                <div class="card">
+                    <div class="card-body">
+                        <p>Review : <%= review.text %></p>
+                        <p class="starability-result" data-rating="<%= review.rating %>"></p>
+                        <p>Author : <%= review.author.username %></p>
+                        <% if (review.author.equals(currentUser._id)) { %>
+                            <form action="/locations/<%= location._id %>/<%= review._id %>/delete?_method=DELETE" method="POST"><button class="btn btn-danger" type="submit">Delete!</button></form>
+                        <% } %>
+                    </div>
+                </div>
+       <% } %>
+    </div>
+</div>

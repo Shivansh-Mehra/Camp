@@ -1,0 +1,66 @@
+<% layout('../views/layouts/boilerplate') %>
+<div class="row">
+    <h1 class="text-center">New Location!</h1>
+    <div class="col-6 offset-3">
+        <div class="newAddition">
+            <h1>Create a new Location</h1>
+            <form id="locationForm" action="/locations/new" method="POST" novalidate class="validated-form" enctype="multipart/form-data">
+                <div class="name mb-3">
+                    <label for="name" class="form-label">Name:</label>
+                    <input type="text" name="name" id="name" class = "form-control" required>
+                    <div class="valid-feedback">Looks Good!</div>
+                </div>
+                <div class="loc mb-3">
+                    <label for="location" class="form-label">Location:</label>
+                    <input type="text" name="location" id="location" class = "form-control" required>
+                    <div class="valid-feedback">Looks Good!</div>
+                </div>
+                <div class="desc mb-3">
+                    <label for="description" class="form-label">Description:</label>
+                    <input type="text" name="description" id="description" class = "form-control" required>
+                    <div class="valid-feedback">Looks Good!</div>
+                </div>
+                <div class="img mb-3">
+                    <label for="image" class="form-label">Image Upload : </label>
+                    <input type="file" name="image" id="image" class ="form-control" required multiple>
+                    <div class="valid-feedback">Looks Good!</div>
+                </div>
+                <div class="mb-3">
+                    <label for="basic-url" class="font-label">Price:</label>
+                    <div class="input-group">
+                        <span class="input-group-text" id="basic-addon3">$</span>
+                        <input type="text" name="price" class="form-control" id="basic-url" aria-describedby="basic-addon3 basic-addon4" placeholder="0.00" required>
+                        <div class="valid-feedback">Looks Good!</div>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+            <a href="/locations">Go Back</a>
+        </div>
+    </div>
+</div> 
+
+<script>
+    (function() {
+        'use strict';
+        const forms = document.querySelectorAll('.validated-form');
+        Array.from(forms) .forEach(function(form) {
+            form.addEventListener('submit',function(e) {
+                if(!form.checkValidity()) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                }
+                form.classList.add('was-validated');
+            },false)
+        })
+    })();
+
+    document.getElementById('locationForm').addEventListener('submit', function(event) {
+        const imageInput = document.getElementById('image');
+        if (imageInput.files.length > 1) {
+            event.preventDefault();
+            alert('Please upload only one image');
+        }
+    });
+
+</script>

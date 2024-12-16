@@ -1,0 +1,33 @@
+<%layout('../views/layouts/boilerplate')%>
+<%- include('../partials/flash') %>
+<div id="cluster-map" style="width: 100%; height: 500px;"></div>
+    <div class="locations">
+        <h1>Locations</h1>
+        <h2><a href="/locations/new">Add a new location!</a></h2>
+        <% for( let index = 0; index < locs.length; index++ ) { %>
+                <div class="card">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <img src="<%= locs[index].image[0].url %>" alt="<% locs[index].name %>" class="img-fluid">
+                        </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h5 class="card-title"><%= locs[index].name %></h5>
+                            <p class="card-title"><%= locs[index].description %></p>
+                            <p class="card-title">
+                                <small class="text-muted"><%= locs[index].location %></small>
+                            </p>
+                            <a href="/locations/<%= locs[index]._id %>" class="btn btn-primary">More Information!</a>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+        <% } %>
+    </div>
+
+    <script>
+        const maptilerapikey = '<%-process.env.MAPTILER_API_KEY%>';
+        const loc = {features: '<%-JSON.stringify(locs)%>'};
+    </script>
+
+<script src="/JS/clusterMap.js"></script>
