@@ -1,16 +1,18 @@
 maptilersdk.config.apiKey = maptilerapikey;
+// const l = JSON.parse(loc.features);
     var map = new maptilersdk.Map({
         container: 'cluster-map',
         zoom: 0.3,
         center: [0, 20],
         style: maptilersdk.MapStyle.DATAVIZ.DARK
     });
-
+loc
       map.on('load', function () {
         // add a clustered GeoJSON source for a sample set of earthquakes
-        map.addSource('earthquakes', {
+        map.addSource('loc', {
           'type': 'geojson',
-          'data': 'https://docs.maptiler.com/sdk-js/assets/earthquakes.geojson',
+          // 'data': 'https://docs.maptiler.com/sdk-js/assets/earthquakes.geojson',
+          data: loc,
           cluster: true,
           clusterMaxZoom: 14, // Max zoom to cluster points on
           clusterRadius: 50 // Radius of each cluster when clustering points (defaults to 50)
@@ -19,7 +21,7 @@ maptilersdk.config.apiKey = maptilerapikey;
         map.addLayer({
           id: 'clusters',
           type: 'circle',
-          source: 'earthquakes',
+          source: 'loc',
           filter: ['has', 'point_count'],
           paint: {
             // Use step expressions (https://docs.maptiler.com/gl-style-specification/expressions/#step)
@@ -51,7 +53,7 @@ maptilersdk.config.apiKey = maptilerapikey;
         map.addLayer({
           id: 'cluster-count',
           type: 'symbol',
-          source: 'earthquakes',
+          source: 'loc',
           filter: ['has', 'point_count'],
           layout: {
             'text-field': '{point_count_abbreviated}',
@@ -63,7 +65,7 @@ maptilersdk.config.apiKey = maptilerapikey;
         map.addLayer({
           id: 'unclustered-point',
           type: 'circle',
-          source: 'earthquakes',
+          source: 'loc',
           filter: ['!', ['has', 'point_count']],
           paint: {
             'circle-color': '#11b4da',
@@ -79,7 +81,7 @@ maptilersdk.config.apiKey = maptilerapikey;
             layers: ['clusters']
           });
           const clusterId = features[0].properties.cluster_id;
-          const zoom = await map.getSource('earthquakes').getClusterExpansionZoom(clusterId);
+          const zoom = await map.getSource('loc').getClusterExpansionZoom(clusterId);
           map.easeTo({
             center: features[0].geometry.coordinates,
             zoom
@@ -91,15 +93,7 @@ maptilersdk.config.apiKey = maptilerapikey;
         // the location of the feature, with
         // description HTML from its properties.
         map.on('click', 'unclustered-point', function (e) {
-          var coordinates = e.features[0].geometry.coordinates.slice();
-          var mag = e.features[0].properties.mag;
-          var tsunami;
-
-          if (e.features[0].properties.tsunami === 1) {
-            tsunami = 'yes';
-          } else {
-            tsunami = 'no';
-          }
+          const coordinates = e.features[0].geometry.coordinates.slice();
 
           // Ensure that if the map is zoomed out such that
           // multiple copies of the feature are visible, the
@@ -111,7 +105,7 @@ maptilersdk.config.apiKey = maptilerapikey;
           new maptilersdk.Popup()
             .setLngLat(coordinates)
             .setHTML(
-              'magnitude: ' + mag + '<br>Was there a tsunami?: ' + tsunami
+              e.features[0].properties.popUpMarkup
             )
             .addTo(map);
         });

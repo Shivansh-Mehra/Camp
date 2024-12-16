@@ -50,7 +50,14 @@ const locationSchema = new mongoose.Schema({
         }
     ],
     deleteImages: []
+},{
+    toJSON: {virtuals: true}
 });
+
+locationSchema.virtual('properties.popUpMarkup').get(function() {
+    return `<strong><a href="/locations/${this._id}">${this.name}</a></strong>
+    <p>${this.description.substring(0,20)}...</p>`;
+})
 
 locationSchema.post('findOneAndDelete',async(doc) => {
     if(doc.reviews.length) {

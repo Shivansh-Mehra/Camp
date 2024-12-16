@@ -22,10 +22,10 @@ const func = (helpers) => {
 
 const seedDB = async () => {
     await Location.deleteMany({});
-    for(let i = 0 ; i < 50 ; i++) {
+    for(let i = 0 ; i < 200 ; i++) {
         const rand = Math.floor(Math.random() * 1000);
         const price = Math.floor(Math.random() * 20) + 10;
-        const geoData = await maptilerClient.geocoding.forward(`${cities[rand].city},${cities[rand].state}`,{limit: 1});
+        // const geoData = await maptilerClient.geocoding.forward(`${cities[rand].city},${cities[rand].state}`,{limit: 1});
         await new Location({
             author : '675ad44969044f6202a02033',
             location : `${cities[rand].city},${cities[rand].state}`,
@@ -36,7 +36,13 @@ const seedDB = async () => {
                 url: 'https:res.cloudinary.com/dnjrccb62/image/upload/v1734171114/AppBuildPractice/ljwiyqkbslz3cnbn6ho5.png',
                 filename: 'AppBuildPractice/ljwiyqkbslz3cnbn6ho5'
             }],
-            geometry: geoData.features[0].geometry,
+            geometry: {
+                type: 'Point',
+                coordinates: [
+                    cities[rand].longitude,
+                    cities[rand].latitude
+                ]
+            },
             reviews : []
         }).save();
     }
