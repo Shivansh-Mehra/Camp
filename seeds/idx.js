@@ -9,7 +9,9 @@ const Location = require('../models/Locations');
 const maptilerClient = require('@maptiler/client');
 maptilerClient.config.apiKey = process.env.MAPTILER_API_KEY;
 
-mongoose.connect('mongodb://127.0.0.1:27017/Locations',{
+const dbUrl = process.env.DB_URL || 'mongodb://127.0.0.1:27017/Locations';
+
+mongoose.connect(dbUrl,{
     useNewUrlParser : true,
     useUnifiedTopology : true,
     useCreateIndex : true
@@ -27,7 +29,7 @@ const seedDB = async () => {
         const price = Math.floor(Math.random() * 20) + 10;
         // const geoData = await maptilerClient.geocoding.forward(`${cities[rand].city},${cities[rand].state}`,{limit: 1});
         await new Location({
-            author : '675ad44969044f6202a02033',
+            author : '6761d9f201a79848d11a6029',
             location : `${cities[rand].city},${cities[rand].state}`,
             description : func(helpers.descriptors),
             name : func(helpers.places),

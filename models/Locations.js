@@ -2,7 +2,8 @@ const mongoose = require('mongoose');
 const reviewModel = require('./Reviews');
 
 const main = async () => {
-    await mongoose.connect('mongodb://127.0.0.1:27017/Locations');
+    const dbUrl = process.env.DB_URL || 'mongodb://127.0.0.1:27017/Locations';
+    await mongoose.connect(dbUrl);
 }
 
 main().then(() => console.log('MongoDB Connected...')).catch(err => console.log(err));

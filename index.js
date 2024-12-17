@@ -1,3 +1,7 @@
+if(process.env.NODE_ENV !== "production")
+    require('dotenv').config();
+
+
 const express = require('express');
 const app = express();
 const path = require('node:path');
@@ -16,10 +20,11 @@ const localStrategy = require('passport-local');
 const userModel = require('./models/User');
 const mongoSanitize = require('express-mongo-sanitize');
 const helmet = require('helmet');
-require('dotenv').config();
 
 
-mongoose.connect('mongodb://127.0.0.1:27017/Locations',{
+const dbUrl = process.env.DB_URL || 'mongodb://127.0.0.1:27017/Locations';
+
+mongoose.connect(dbUrl,{
     useNewUrlParser : true,
     useUnifiedTopology : true,
     useCreateIndex : true
@@ -41,15 +46,17 @@ app.use(express.urlencoded({extended : true}));
 app.use(methodOverride('_method'));
 app.use(cookieParser('TKGOP'));
 // app.use(bsCustomFileInput.init());
-
-const sessionStore = new mongoStore({
-    mongoUrl : 'mongodb://127.0.0.1:27017/Locations',
+//'mongodb://127.0.0.1:27017/Locations'
+const sessionStore = mongoStore.create({
+    mongoUrl : dbUrl,
     collection : 'Dev'
 })
 
+const secret = process.env.SECRET || "ThisIsASecret";
+
 app.use(session({
     name: 'session',
-    secret : 'TKGOP',
+    secret,
     resave : false,
     saveUninitialized : true,
     store : sessionStore,
@@ -134,17 +141,6 @@ app.use((req,res,next) => {
     next();
 })
 
-app.get('/',(req,res) => {
-    console.log(req.session);
-    res.cookie('testing','yes we are testing',{secret : 'TKGOP'});
-    res.render('locations/home');
-})
-
-app.get('/fake',async (req,res) => {
-    const user = new userModel({email : "hello123@gmail.com",username : "WOOOOOO"});
-    const newUser = await userModel.register(user,"BASHAR"); //encrypting algo is pbkdf2 instead of bcrypt because its platform independent
-    res.json(newUser);
-})
 
 app.use('/locations',locationRouter);
 app.use('/users',userRouter);
