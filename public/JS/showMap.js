@@ -8,6 +8,9 @@ const map = new maptilersdk.Map({
     zoom: 8
 });
 
+const nav = new maptilersdk.MaptilerNavigationControl();
+map.addControl(nav, 'top-left');
+
 const markerHeight = 50, markerRadius = 10, linearOffset = 25;
 const popupOffsets = {
  'top': [0, 0],

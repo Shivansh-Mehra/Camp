@@ -1,12 +1,15 @@
 maptilersdk.config.apiKey = maptilerapikey;
 // const l = JSON.parse(loc.features);
-    var map = new maptilersdk.Map({
+    const map = new maptilersdk.Map({
         container: 'cluster-map',
         zoom: 0.3,
         center: [0, 20],
         style: maptilersdk.MapStyle.DATAVIZ.DARK
     });
-loc
+    
+    const nav = new maptilersdk.MaptilerNavigationControl();
+    map.addControl(nav, 'top-left');
+
       map.on('load', function () {
         // add a clustered GeoJSON source for a sample set of earthquakes
         map.addSource('loc', {

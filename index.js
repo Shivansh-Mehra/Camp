@@ -14,6 +14,7 @@ const session = require('express-session');
 const passport = require('passport');
 const localStrategy = require('passport-local');
 const userModel = require('./models/User');
+const mongoSanitize = require('express-mongo-sanitize');
 require('dotenv').config();
 
 
@@ -64,6 +65,15 @@ passport.serializeUser(userModel.serializeUser()); //serialize -> how a user is 
 passport.deserializeUser(userModel.deserializeUser());
 
 app.use(flash());
+
+//security
+app.use(mongoSanitize({
+    replaceWith: '_',
+    allowDots: true,
+    onSanitize: ({req,key}) => {
+         console.warn("[DryRun] ERROR");
+    }
+}));
 
 app.use((req,res,next) => {
     res.locals.currentUser = req.user;

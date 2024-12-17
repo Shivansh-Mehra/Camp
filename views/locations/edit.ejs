@@ -1,10 +1,20 @@
 <% layout('../views/layouts/boilerplate') %>
 <%- include('../partials/flash') %>
+<style>
+    *{
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+    #buttons {
+        display: flex;
+        justify-content: space-between;
+    }
+</style>
 <div class="row">
-    <h1 class="text-center">New Location!</h1>
     <div class="col-6 offset-3">
         <div class="newAddition">
-            <h1>Create a new Location</h1>
+            <h1 style="text-align: center;" >Edit this location</h1>
             <form action="/locations/edit/<%= location._id %>?_method=PATCH" method="POST" novalidate class="validated-form" enctype="multipart/form-data">
                 <div class="name mb-3">
                     <label for="name" class="form-label">Name:</label>
@@ -34,12 +44,16 @@
                         <div class="valid-feedback">Looks Good!</div>
                     </div>
                 </div>
+                
+            </form>
+            <div id="buttons">
                 <button type="submit" class="btn btn-primary">Submit</button>
-            </form>
-            <form action="/locations/edit/<%= location._id %>/deleteImages">
-                <button type="submit" class="btn btn-danger">Delete Images</button>
-            </form>
-            <a href="/locations">Go Back</a>
+                <form action="/locations/edit/<%= location._id %>/deleteImages">
+                    <button type="submit" class="btn btn-danger">Delete Images</button>
+                </form>
+                <a class="btn btn-danger" href="/locations">Go Back</a>
+            </div>
+            
         </div>
     </div>
 </div> 

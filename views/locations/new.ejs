@@ -1,9 +1,20 @@
 <% layout('../views/layouts/boilerplate') %>
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    #buttons {
+        display: flex;
+        justify-content: space-between;
+    }
+</style>
 <div class="row">
-    <h1 class="text-center">New Location!</h1>
     <div class="col-6 offset-3">
         <div class="newAddition">
-            <h1>Create a new Location</h1>
+            <h1 style="text-align: center;;">Create a new Location</h1>
             <form id="locationForm" action="/locations/new" method="POST" novalidate class="validated-form" enctype="multipart/form-data">
                 <div class="name mb-3">
                     <label for="name" class="form-label">Name:</label>
@@ -33,9 +44,12 @@
                         <div class="valid-feedback">Looks Good!</div>
                     </div>
                 </div>
-                <button type="submit" class="btn btn-primary">Submit</button>
+                <div class="mb-3" id="buttons">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <a class="btn btn-danger" href="/locations">Go Back</a>
+                </div>
             </form>
-            <a href="/locations">Go Back</a>
+            
         </div>
     </div>
 </div> 
