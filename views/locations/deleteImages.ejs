@@ -6,7 +6,7 @@
         <form action="/locations/edit/<%= location._id %>/deleteImages?_method=DELETE" method="POST">
             <% location.image.forEach(image => { %>
                 <div class="card mb-3">
-                    <img src="<%= image.url %>" class="card-img-top" alt="Image">
+                    <img crossorigin="anonymous" src="<%= image.url %>" class="card-img-top" alt="Image">
                     <div class="card-body">
                         <h5 class="card-title"><%= image.filename %></h5>
                         <div class="form-check">

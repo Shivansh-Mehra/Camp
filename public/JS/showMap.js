@@ -1,3 +1,4 @@
+// const maptilersdk = require('@maptiler/client');
 maptilersdk.config.apiKey = maptilerapikey;
 
 const map = new maptilersdk.Map({
