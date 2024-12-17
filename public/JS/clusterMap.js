@@ -1,4 +1,3 @@
-// const maptilersdk = require('@maptiler/client');
 maptilersdk.config.apiKey = maptilerapikey;
 // const l = JSON.parse(loc.features);
     const map = new maptilersdk.Map({
