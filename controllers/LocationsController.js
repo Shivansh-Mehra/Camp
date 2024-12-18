@@ -44,7 +44,7 @@ module.exports.editLocation = async(req,res) => {
     await Location.findByIdAndUpdate(id,req.body,{runValidators : true});
     const location = await Location.findById(id);
     const images = req.files.map(f => ({url: f.path, filename: f.filename}));
-    location.image.push(...images);
+    if(images) location.image.push(...images);
     await location.save();
     req.flash('success','successfully updated the information!');
     res.redirect('/locations/'+id);

@@ -44,16 +44,16 @@
                         <div class="valid-feedback">Looks Good!</div>
                     </div>
                 </div>
+
+                <div id="buttons">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <form action="/locations/edit/<%= location._id %>/deleteImages">
+                        <button type="submit" class="btn btn-danger">Delete Images</button>
+                    </form>
+                    <a class="btn btn-danger" href="/locations">Go Back</a>
+                </div>
                 
             </form>
-            <div id="buttons">
-                <button type="submit" class="btn btn-primary">Submit</button>
-                <form action="/locations/edit/<%= location._id %>/deleteImages">
-                    <button type="submit" class="btn btn-danger">Delete Images</button>
-                </form>
-                <a class="btn btn-danger" href="/locations">Go Back</a>
-            </div>
-            
         </div>
     </div>
 </div> 

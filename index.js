@@ -25,9 +25,8 @@ const secret = process.env.SECRET || "ThisIsASecret";
 const dbUrl = process.env.DB_URL || 'mongodb://127.0.0.1:27017/Locations';
 
 mongoose.connect(dbUrl,{
-    useNewUrlParser : true,
-    useUnifiedTopology : true,
-    useCreateIndex : true
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
 });
 
 const db = mongoose.connection;
@@ -46,11 +45,8 @@ app.use(methodOverride('_method'));
 app.use(cookieParser(secret));
 
 const sessionStore = mongoStore.create({
-    mongoUrl : dbUrl,
-    touchAfter: 24 * 60 * 60,
-    crypto: {
-        secret
-    }
+    mongoUrl : dbUrl
+    // collection: 'Dev'
 })
 
 app.use(session({
@@ -132,7 +128,7 @@ app.use((req,res,next) => {
     next();
 })
 
-
+app.get('/',(req,res) => {res.render('locations/home')});
 app.use('/locations',locationRouter);
 app.use('/users',userRouter);
 
