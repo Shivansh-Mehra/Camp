@@ -8,8 +8,10 @@
 </style>
 <div id="cluster-map" style="width: 100%; height: 500px;"></div>
     <div class="locations">
-        <h1>Locations</h1>
-        <h2><a href="/locations/new">Add a new location!</a></h2>
+        <div class="head-2" style="display: flex; justify-content: space-between;">
+            <h1>Locations</h1>
+            <h2><a href="/locations/new" class="btn btn-secondary">Add a new location!</a></h2>
+        </div>
         <% for( let index = (Number)(curr); index < Math.min(locs.length,(Number)(curr)+10); index++ ) { %>
                 <div class="card mb-3">
                     <div class="row">
