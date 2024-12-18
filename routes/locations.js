@@ -41,7 +41,6 @@ locationRouter.route('/edit/:id/deleteImages')
             .get(isLoggedIn,isAuthor,wrapAsyncHandler(locationController.deleteImages))
             .delete(isLoggedIn,isAuthor,wrapAsyncHandler(locationController.deleteSelectedImages));
 
-//modify if free
 locationRouter.all('*',(req,res,next) => {
     next(new CustomError("Page not found",404));
 })

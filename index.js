@@ -21,7 +21,7 @@ const userModel = require('./models/User');
 const mongoSanitize = require('express-mongo-sanitize');
 const helmet = require('helmet');
 
-
+const secret = process.env.SECRET || "ThisIsASecret";
 const dbUrl = process.env.DB_URL || 'mongodb://127.0.0.1:27017/Locations';
 
 mongoose.connect(dbUrl,{
@@ -33,7 +33,6 @@ mongoose.connect(dbUrl,{
 const db = mongoose.connection;
 db.on('error',console.error.bind(console,'connection error:'));
 db.once('open',() => {
-    console.log("Connected to the Database...");
 });
 
 app.engine('ejs',ejsMate);
@@ -44,15 +43,15 @@ app.set('views',path.join(__dirname,'views'));
 app.use(express.static(path.join(__dirname,'public')));
 app.use(express.urlencoded({extended : true}));
 app.use(methodOverride('_method'));
-app.use(cookieParser('TKGOP'));
-// app.use(bsCustomFileInput.init());
-//'mongodb://127.0.0.1:27017/Locations'
+app.use(cookieParser(secret));
+
 const sessionStore = mongoStore.create({
     mongoUrl : dbUrl,
-    collection : 'Dev'
+    touchAfter: 24 * 60 * 60,
+    crypto: {
+        secret
+    }
 })
-
-const secret = process.env.SECRET || "ThisIsASecret";
 
 app.use(session({
     name: 'session',
@@ -86,29 +85,21 @@ app.use(mongoSanitize({
 
 const scriptSrcUrls = [
     "https://stackpath.bootstrapcdn.com/",
-    // "https://api.tiles.mapbox.com/",
-    // "https://api.mapbox.com/",
     "https://kit.fontawesome.com/",
     "https://cdnjs.cloudflare.com/",
     "https://cdn.jsdelivr.net",
-    "https://cdn.maptiler.com/", // add this
+    "https://cdn.maptiler.com/", 
 ];
 const styleSrcUrls = [
     "https://kit-free.fontawesome.com/",
     "https://stackpath.bootstrapcdn.com/",
-    // "https://api.mapbox.com/",
-    // "https://api.tiles.mapbox.com/",
     "https://fonts.googleapis.com/",
     "https://use.fontawesome.com/",
     "https://cdn.jsdelivr.net",
-    "https://cdn.maptiler.com/", // add this
+    "https://cdn.maptiler.com/", 
 ];
 const connectSrcUrls = [
-    // "https://api.mapbox.com/",
-    // "https://a.tiles.mapbox.com/",
-    // "https://b.tiles.mapbox.com/",
-    // "https://events.mapbox.com/",
-    "https://api.maptiler.com/", // add this
+    "https://api.maptiler.com/", 
 ];
 const fontSrcUrls = [];
 
@@ -151,7 +142,6 @@ app.all('*',(req,res,next) => {
 
 app.use((err,req,res,next) => {
     const statusCode = err.statusCode || 500;
-    console.log(err.message);
     if(!err.message) err.message = "Something went wrong";
     res.status(statusCode).render('locations/error',{err});
 })

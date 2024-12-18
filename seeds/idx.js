@@ -26,9 +26,7 @@ const seedDB = async () => {
     await Location.deleteMany({});
     for(let i = 0 ; i < 200 ; i++) {
         const rand = Math.floor(Math.random() * 1000);
-        const price = Math.floor(Math.random() * 20) + 10;
-        // const geoData = await maptilerClient.geocoding.forward(`${cities[rand].city},${cities[rand].state}`,{limit: 1});
-        await new Location({
+        const price = Math.floor(Math.random() * 20) + 10;        await new Location({
             author : '6761d9f201a79848d11a6029',
             location : `${cities[rand].city},${cities[rand].state}`,
             description : func(helpers.descriptors),
@@ -53,14 +51,7 @@ const seedDB = async () => {
 const db = mongoose.connection;
 db.on('error',console.error.bind(console,'connection error:'));
 db.once('open',async () => {
-    console.log("Connected to the Database...");
-
 await seedDB().then(async () => {
-    console.log("Database Seeded...");
-    const loc = await Location.find({});
-    for(const it of loc) {
-        console.log(it.geometry.coordinates);
-    }
     mongoose.connection.close();
 })
 });
