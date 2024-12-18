@@ -6,11 +6,20 @@ maptilerClient.config.apiKey = process.env.MAPTILER_API_KEY;
 
 module.exports.index = async (req,res) => {
     const locs = await Location.find({});
+    let curr = req.query.curr || 0;
+    const page = req.query.page || 1;
+    if(curr == 0 && page > 1 && page < locs.length/10) {
+        curr = (page - 1) * 10;
+    }
+    if(page < 1 || page > locs.length/10) {
+        req.flash('error','invalid page number');
+        res.redirect('/locations');
+    }
     if(!locs) {
         req.flash('error','unable to load the locations at the moment! please try again!!');
         res.redirect('/');
     }
-    res.render('locations/index',{locs});
+    res.render('locations/index',{locs,curr});
 }
 
 module.exports.newLocationForm = (req,res) => {

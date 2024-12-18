@@ -1,10 +1,16 @@
 <%layout('../views/layouts/boilerplate')%>
 <%- include('../partials/flash') %>
+<style>
+    .controls {
+        display: flex;
+        justify-content: space-between;
+    }
+</style>
 <div id="cluster-map" style="width: 100%; height: 500px;"></div>
     <div class="locations">
         <h1>Locations</h1>
         <h2><a href="/locations/new">Add a new location!</a></h2>
-        <% for( let index = 0; index < locs.length; index++ ) { %>
+        <% for( let index = (Number)(curr); index < Math.min(locs.length,(Number)(curr)+10); index++ ) { %>
                 <div class="card mb-3">
                     <div class="row">
                         <div class="col-md-4">
@@ -23,6 +29,20 @@
                     </div>
                 </div>
         <% } %>
+        <div class="controls">
+            <form action="/locations" method="GET" style="display: inline;">
+                <input type="hidden" name="curr" value="<%= (Number)(curr) - 10 %>">
+                <button type="submit" class="btn btn-secondary <%= curr == 0 ? 'disabled' : '' %>">Previous</button>
+            </form>
+            <form action="/locations" method="GET" style="display: inline;">
+                <input type="hidden" name="curr" value="<%= (Number)(curr) + 10 %>">
+                <button type="submit" class="btn btn-secondary <%= (Number)(curr) + 10 > locs.length ? 'disabled' : '' %>">Next</button>
+            </form>
+            <form action="/locations" method="GET" class="form-inline" style="display: inline-flex; align-items: center;">
+                <input type="number" name="page" min="1" placeholder="Page number" required class="form-control mr-2">
+                <!-- <button type="submit" class="btn btn-secondary">Jump to</button> -->
+            </form>
+        </div>
     </div>
 
     <script>

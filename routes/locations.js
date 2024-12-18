@@ -18,6 +18,7 @@ const multer = require('multer');
 const upload = multer({storage});
 
 locationRouter.get('/',wrapAsyncHandler(locationController.index));
+locationRouter.post('/',wrapAsyncHandler(locationController.index));
 
 locationRouter.route('/new')
             .get(isLoggedIn,locationController.newLocationForm)
