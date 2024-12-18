@@ -21,7 +21,7 @@ const userModel = require('./models/User');
 const mongoSanitize = require('express-mongo-sanitize');
 const helmet = require('helmet');
 
-const secret = process.env.SECRET || "ThisIsASecret";
+const secret = process.env.SECRET || "TKGOP";
 const dbUrl = process.env.DB_URL || 'mongodb://127.0.0.1:27017/Locations';
 
 mongoose.connect(dbUrl,{
@@ -142,5 +142,5 @@ app.use((err,req,res,next) => {
     res.status(statusCode).render('locations/error',{err});
 })
 
-
-app.listen(3000);
+const port = process.env.PORT || 3000;
+app.listen(port);

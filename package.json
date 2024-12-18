@@ -1,4 +1,7 @@
 {
+  "engine":{
+    "node": "22.12.0"
+  },
   "name": "appbuildpractice",
   "version": "1.0.0",
   "main": "index.js",

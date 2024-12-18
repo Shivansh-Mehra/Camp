@@ -30,15 +30,15 @@
                 </div>
         <% } %>
         <div class="controls">
-            <form action="/locations" method="GET" style="display: inline;">
+            <form action="/locations" method="POST" style="display: inline;">
                 <input type="hidden" name="curr" value="<%= (Number)(curr) - 10 %>">
                 <button type="submit" class="btn btn-secondary <%= curr == 0 ? 'disabled' : '' %>">Previous</button>
             </form>
-            <form action="/locations" method="GET" style="display: inline;">
+            <form action="/locations" method="POST" style="display: inline;">
                 <input type="hidden" name="curr" value="<%= (Number)(curr) + 10 %>">
                 <button type="submit" class="btn btn-secondary <%= (Number)(curr) + 10 > locs.length ? 'disabled' : '' %>">Next</button>
             </form>
-            <form action="/locations" method="GET" class="form-inline" style="display: inline-flex; align-items: center;">
+            <form action="/locations" method="POST" class="form-inline" style="display: inline-flex; align-items: center;">
                 <input type="number" name="page" min="1" placeholder="Page number" required class="form-control mr-2">
                 <!-- <button type="submit" class="btn btn-secondary">Jump to</button> -->
             </form>
